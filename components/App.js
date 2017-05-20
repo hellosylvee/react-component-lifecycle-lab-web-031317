@@ -1,6 +1,6 @@
 import React from 'react';
 import TweetWall from './TweetWall';
-
+require('fbjs/lib/ExecutionEnvironment').canUseDOM = true
 import { getTweets }from '../lib/mockAPI';
 import { initialize, update } from '../lib/chart';
 
@@ -16,13 +16,25 @@ export default class App extends React.Component {
     this.fetchTweets = this.fetchTweets.bind(this);
   }
 
-  // TODO: componentWillMount()
+  // componentWillMount()
+  componentWillMount() {
+    this.fetchTweets()
+  }
 
-  // TODO: componentDidMount()
+  // componentDidMount()
+  componentDidMount() {
+    this.startInterval()
+  }
 
-  // TODO: componentWillUnmount()
+  // componentWillUnmount()
+  componentWillUnmount(){
+    this.cleanUpInterval()
+  }
 
-  // TODO: componentDidUpdate()
+  // componentDidUpdate()
+  componentDidUpdate() {
+    this.updateChart(this.state.latestTweets.length)
+  }
 
   updateChart(numTweets) {
     update(numTweets);
@@ -41,7 +53,7 @@ export default class App extends React.Component {
     this.setState({
       latestTweets: newTweets
     });
-  }
+  } // this will fetch new tweets, and updating the state
 
   render() {
     return (
